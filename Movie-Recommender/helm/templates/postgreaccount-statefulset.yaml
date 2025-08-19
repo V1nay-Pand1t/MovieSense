@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgreaccount-deployment
+  labels:
+    service: postgreaccount
+spec:
+  serviceName: postgreaccount-service   # must be under spec
+  replicas: 1
+  selector:
+    matchLabels:
+      service: postgreaccount
+  template:
+    metadata:
+      labels:
+        service: postgreaccount
+    spec:
+      containers:
+        - name: postgreaccount
+          image: {{ .Values.image.repo }}/postgreaccount-db:{{ .Values.image.version }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]   # added for Istio
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 700Mi
+      {{- with .Values.moviesensebackend.affinity }}
+      affinity:
+{{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.moviesensebackend.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.moviesensebackend.tolerations }}
+      tolerations:
+{{ toYaml . | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: default
+        volumeMode: Filesystem
+        resources:
+          requests:
+            storage: 1Gi

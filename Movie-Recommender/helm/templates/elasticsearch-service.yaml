@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: elasticsearch
+  name: elasticsearch
+spec:
+  ports:
+    - name: elasticsearch
+      port: 6379
+      targetPort: 6379
+  selector:
+    service: elasticsearch

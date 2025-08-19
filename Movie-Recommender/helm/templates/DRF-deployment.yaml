@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moviesense-backend
+  labels:
+    service: moviesense-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: moviesense-backend
+  template:
+    metadata:
+      labels:
+        service: moviesense-backend
+    spec:
+      containers:
+        - name: moviesense-backend
+          image: {{ .Values.image.repo }}/moviesensebackend:{{ .Values.image.version }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+      restartPolicy: Always
+{{- with .Values.moviesensebackend.affinity }}
+      affinity:
+{{ toYaml . | nindent 8 }}
+{{- end }}
+{{- with .Values.moviesensebackend.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | nindent 8 }}
+{{- end }}
+{{- with .Values.moviesensebackend.tolerations }}
+      tolerations:
+{{ toYaml . | nindent 8 }}
+{{- end }}

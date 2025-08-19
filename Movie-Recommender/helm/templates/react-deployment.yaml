@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moviesense-frontend
+  labels:
+    service: moviesense-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: moviesense-frontend
+  template:
+    metadata:
+      labels:
+        service: moviesense-frontend
+    spec:
+      containers:
+        - name: moviesense-frontend
+          image: moviesense-frontend:latest
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          ports:
+            - containerPort: {{ .Values.nodePort | default 8080 }}
+          resources:
+            limits:
+              cpu: 200m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 50Mi
+      restartPolicy: Always
+{{- with .Values.moviesensefrontend.affinity }}
+      affinity:
+{{- toYaml . | nindent 8 }}
+{{- end }}
+# {{- with .Values.moviesensefrontend.nodeSelector }}
+#       nodeSelector:
+# {{- toYaml . | nindent 8 }}
+# {{- end }}
+# {{- with .Values.moviesensefrontend.tolerations }}
+#       tolerations:
+# {{- toYaml . | nindent 8 }}
+# {{- end }}
+  

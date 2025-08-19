@@ -1,0 +1,12 @@
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from imdb_picker.views import MovieViewSet
+from imdb_picker import views
+
+router = DefaultRouter()
+router.register(r'movies', MovieViewSet, basename='movie')
+
+urlpatterns = [
+    path('', include(router.urls)),
+]
+

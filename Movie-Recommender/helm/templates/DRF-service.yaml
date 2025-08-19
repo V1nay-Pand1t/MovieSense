@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: moviesense-backend
+  labels:
+    service: moviesense-backend
+  spec:
+    ports:
+      - name: http
+        port: {{ .Values.moviesensebackend.port }}
+        targetPort: http
+    selector:
+      service: moviesense-backend

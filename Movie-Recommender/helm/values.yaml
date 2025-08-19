@@ -1,0 +1,49 @@
+# Registry and repo for docker images
+image:
+  repo: moviesense
+  version: latest
+  pullPolicy: IfNotPresent
+
+# Pod Security Policy
+podSecurityPolicy:
+  enabled: false
+
+nodePort: false
+
+ocCreateRoute: false
+
+moviesensefrontend:
+  #options for frontend deployment affinity
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+              - key: node.kubernetes.io/instance-type
+                operator: In
+                values:
+                  - Standard_D4s_v3
+  nodePort: 32080
+  port: 80
+  targetPort: 5173
+
+moviesensebackend:
+  affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+            - key: node.kubernetes.io/instance-type
+              operator: In
+              values:
+                - Standard_D4s_v3
+  nodeSelector:
+    node.kubernetes.io/instance-type: Standard_D4s_v3
+  tolerations:
+    - key: "node.kubernetes.io/unreachable"
+      operator: "Exists"
+      effect: "NoExecute"
+      tolerationSeconds: 3600
+  port: 8081

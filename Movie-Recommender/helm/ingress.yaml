@@ -1,0 +1,20 @@
+## This is the ingress configuration for the Movie Recommender application
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: movie-sense
+  name: movie-sense-ingress
+spec:
+  ingressClassName:
+    { { ternary .Values.AKSdeployment "azure/application-gateway" "nginx" } }
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: movie-sense-service
+                port:
+                  number: { { .Values.servicePort | default 80 } }
