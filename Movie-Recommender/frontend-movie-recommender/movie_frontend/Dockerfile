@@ -1,0 +1,36 @@
+# ----------------------------
+# Stage 1: Build the React/Vite app
+# ----------------------------
+FROM node:20-slim AS build
+
+# Set working dir
+WORKDIR /app
+
+# Copy only package.json + lock files first (better caching)
+COPY ../package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy the rest of the source code
+COPY .. .
+
+# Build the optimized production files
+RUN npm run build
+
+# ----------------------------
+# Stage 2: Run with Nginx
+# ----------------------------
+FROM nginx:alpine
+
+# Copy build output from Stage 1 into nginx html folder
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy custom nginx config (optional)
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Run Nginx in foreground
+CMD ["nginx", "-g", "daemon off;"]

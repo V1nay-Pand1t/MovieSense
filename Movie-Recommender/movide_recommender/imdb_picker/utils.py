@@ -3,11 +3,7 @@ from sentence_transformers import SentenceTransformer
 from django.http import JsonResponse
 import os
 import requests
-from databricks import sql
 
-DATABRICKS_HOST = "dbc-61e9705e-1e95.cloud.databricks.com"
-DATABRICKS_ACCESS_TOKEN = "dapi4aaae4df9b584da3edc75de2a4a86617"
-DATABRICKS_HTTP_PATH = "/sql/1.0/warehouses/664fd39a1d8f6f0a"
 
 def api_error_handler(func):
     def wrapper(*args, **kwargs):
@@ -212,37 +208,4 @@ class ElasticsearchUtils:
                 watchlist_detailed_info.append(res[0])  # Assuming the first result is the most relevant
         return watchlist_detailed_info
 
-## Functions incase databricks needs to be used
 
-class Databricksutils:
-    @staticmethod
-    @api_error_handler
-    def fetch_posters(request):
-        DATABRICKS_SERVER_HOSTNAME = os.getenv("DATABRICKS_HOST")  # e.g., dbc-xxx.cloud.databricks.com
-        DATABRICKS_HTTP_PATH = os.getenv("DATABRICKS_HTTP_PATH")
-        DATABRICKS_ACCESS_TOKEN = os.getenv("DATABRICKS_TOKEN")
-        try:
-            with sql.connect(
-                server_hostname=DATABRICKS_SERVER_HOSTNAME,
-                http_path=DATABRICKS_HTTP_PATH,
-                access_token=DATABRICKS_ACCESS_TOKEN
-            ) as connection:
-
-                cursor = connection.cursor()
-
-                # Adjust table and column names
-                query = """
-                    SELECT movie_id, poster_path
-                    FROM your_delta_schema.movie_metadata
-                    WHERE poster_path IS NOT NULL
-                    LIMIT 100
-                """
-                cursor.execute(query)
-                rows = cursor.fetchall()
-
-                data = [{"movie_id": row[0], "poster_path": row[1]} for row in rows]
-
-                return JsonResponse(data, safe=False)
-
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)

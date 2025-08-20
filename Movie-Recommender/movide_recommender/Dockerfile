@@ -1,23 +1,38 @@
-FROM python:3.9-slim
+# Stage 1: Build dependencies
+FROM python:3.13-slim AS builder
 
-# Set the working directory in the container
 WORKDIR /app
-
-# Copy the requirements file into the container
 COPY requirements.txt .
 
-# Install the required packages
-RUN pip install --no-cache-dir -r requirements.txt
+# Install build tools temporarily + dependencies into a wheel cache
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential gcc \
+    && pip install --no-cache-dir --prefix=/install -r requirements.txt 
 
 
+RUN pip install --prefix=/install --no-cache-dir \
+    torch torchvision torchaudio \
+    --extra-index-url https://download.pytorch.org/whl/cpu \
+    sentence-transformers
 
-# Copy the entire project into the container
+RUN apt-get purge -y build-essential gcc \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# Stage 2: Final image
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy project files
 COPY . .
 
-# Expose the port the app runs on
+# Expose port
 EXPOSE 8000
 
-# migrate the database
-
-# migrate the database and run the Django development server
-CMD ["sh", "-c", "python manage.py migratṇe && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"]
+# Run migrations + collectstatic + start server
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn movide_recommender.wsgi:application --bind 0.0.0.0:8000"]

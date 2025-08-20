@@ -36,6 +36,9 @@ DEBUG = True
 ALLOWED_HOSTS = [ 
                  'localhost',
                  '127.0.0.1',
+                 'elasticsearch',
+                 'postgres',
+                 'moviesense-frontend'
 ]
 
 
@@ -127,10 +130,10 @@ WSGI_APPLICATION = 'movide_recommender.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'account',
+        'NAME': 'mydb',
         'USER': 'postgres',
         'PASSWORD': '1234',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
@@ -181,11 +184,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173", # RReact dev server
     "http://127.0.0.1:5173",
+    "http://moviesense-frontend:5173",
+    "http://elasticsearch:9200"
 ]
 CORS_ALLOW_CREDENTIALS = True
 
 # Optional if you're using cookies
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
+    "http://localhost:5173", # RReact dev server
     "http://127.0.0.1:5173",
+    "http://moviesense-frontend:5173",
+    "http://elasticsearch:9200"
 ]

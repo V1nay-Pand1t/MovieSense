@@ -18,7 +18,7 @@ from .serializers import MovieData2Serializer
 from rest_framework.permissions import AllowAny
 
 INDEX_NAME = "movie_data_9"
-ElasticsearchUtils = ElasticsearchUtils(index_name=INDEX_NAME, host_address="http://localhost:9200")
+ElasticsearchUtils = ElasticsearchUtils(index_name=INDEX_NAME, host_address="http://elasticsearch:9200")
 class MovieViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
     @action(detail=False, methods=['get'], url_path='full_text_search')
