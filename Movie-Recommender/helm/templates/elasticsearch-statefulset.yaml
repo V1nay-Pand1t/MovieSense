@@ -17,20 +17,38 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: elasticsearch:7.10.1
+        image: elasticsearch:9.0.3
         imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
         ports:
         - containerPort: 9200
+      initContainers:
+      - name: restore-snapshot
+        image: curlimages/curl:latest
+        command:
+          - sh
+          - -c
+          - |
+            echo "Waiting for Elasticsearch..."
+            until curl -s http://elasticsearch:9200/_cluster/health?wait_for_status=yellow&timeout=50s; do
+              sleep 5
+            done
+            echo "Restoring snapshot..."
+            curl -X POST "http://elasticsearch:9200/_snapshot/azure_repo/my_snapshot/_restore?wait_for_completion=true"
+        env:
+          - name: AZURE_STORAGE_ACCOUNT
+            value: "moviesenseblobs"
+          - name: AZURE_STORAGE_KEY
+            value: "dxuUFZNkpcVUXONKjmZFjTa6gM7tbTb42V0uFDDZ62Ob5BKgketHJZhlG9a9NOF03aXyHNIDe3a6+AStEMRTUA=="
         volumeMounts:
           - name: data
             mountPath: /mnt/elasticsearch
         resources:
           limits:
             cpu: 200m
-            memory: 100Mi
+            memory: 1Gi
           requests:
             cpu: 100m
-            memory: 50Mi
+            memory: 200Mi
       restartPolicy: Always
       {{- with .Values.moviesensebackend.affinity }}
       affinity:
@@ -49,9 +67,9 @@ spec:
         name: data
       spec:
         accessModes:
-          - ReadOnlyMany
+          - ReadWriteOnce
         storageClassName: default
         volumeMode: Filesystem
         resources:
           requests:
-            storage: 1Gi
+            storage: 3Gi
