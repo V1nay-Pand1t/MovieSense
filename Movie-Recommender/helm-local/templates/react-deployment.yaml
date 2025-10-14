@@ -16,7 +16,9 @@ spec:
     spec:
       containers:
         - name: moviesense-frontend
-          image: moviesenseregistry.azurecr.io/moviesensefrontend:v5
+          # image on docker hub
+          image: vinyl48/moviesensefrontend:latest
+
           ports:
             - containerPort: 80
           resources:

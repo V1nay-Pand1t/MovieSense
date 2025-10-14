@@ -5,8 +5,10 @@ from imdb_picker import views
 
 router = DefaultRouter()
 router.register(r'movies', MovieViewSet, basename='movie')
+### lets expose metrics endpoint for prometheus
 
 urlpatterns = [
+    path('metrics/', include('django_prometheus.urls')),
     path('', include(router.urls)),
 ]
 

@@ -1,4 +1,4 @@
-
+tokenizers==0.21.1
 asgiref==3.8.1
 certifi==2025.4.26
 cffi==1.17.1
@@ -47,13 +47,13 @@ sqlparse==0.5.3
 sympy==1.14.0
 threadpoolctl==3.6.0
 thrift==0.20.0
-tokenizers==0.21.2
 tqdm==4.67.1
-transformers==4.53.0
+transformers==4.48.0
 typing_extensions==4.14.0
 tzdata==2025.2
 urllib3==2.4.0
 gunicorn==23.0.0
+django-prometheus==2.4.0
 
 
 

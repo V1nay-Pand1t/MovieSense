@@ -5,14 +5,23 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install build tools temporarily + dependencies into a wheel cache
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential gcc \
-    && pip install --no-cache-dir --prefix=/install -r requirements.txt 
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     build-essential gcc \
+#     && pip install --no-cache-dir --prefix=/install -r requirements.txt 
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential gcc curl \
+    && python -m pip install --upgrade pip setuptools wheel \
+    && pip --version
 
+# Install a compatible tokenizers version first (pin to a range / specific version)
+# Then install other requirements into an isolated prefix to keep final image small.
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# Install torch/sentence-transformers (adjust for CPU/GPU as needed)
+# Note: remove the trailing backslash spaces if copying exactly.
 RUN pip install --prefix=/install --no-cache-dir \
-    torch torchvision torchaudio \
-    --extra-index-url https://download.pytorch.org/whl/cpu \
+    torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu \
     sentence-transformers
 
 RUN apt-get purge -y build-essential gcc \
@@ -35,4 +44,4 @@ COPY . .
 EXPOSE 8000
 
 # Run migrations + collectstatic + start server
-CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn movide_recommender.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn movide_recommender.wsgi:application --bind 0.0.0.0:8081"]

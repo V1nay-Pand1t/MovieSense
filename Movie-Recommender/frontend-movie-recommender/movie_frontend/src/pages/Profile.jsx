@@ -26,7 +26,7 @@ export default function Profile() {
             if (!user?.user) {
                 throw new Error('No user ID available');
             }
-            const { data } = await axios.get(`http://127.0.0.1:8000/imdb/watchlist/?user=${user.user}`);
+            const { data } = await axios.get(`http://moviesesense-backend:8081/imdb/watchlist/?user=${user.user}`);
             return data;
         },
         enabled: !!user?.user,

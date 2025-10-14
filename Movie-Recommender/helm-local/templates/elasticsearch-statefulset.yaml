@@ -25,9 +25,9 @@ spec:
         - name: elasticsearch-snapshot
           persistentVolumeClaim:
             claimName: data-elasticsearch-0
-        - name: elasticsearch-config
-          configMap:
-            name: elasticsearch-config
+        # - name: elasticsearch-config
+        #   configMap:
+        #     name: elasticsearch-config
       containers:
         - name: elasticsearch
           image: elasticsearch:9.0.3
@@ -42,11 +42,11 @@ spec:
             - name: elasticsearch-data
               mountPath: /usr/share/elasticsearch/data
               subPath: data
-            - name: elasticsearch-snapshot
-              mountPath: /usr/share/elasticsearch/snapshot
-            - name: elasticsearch-config
-              mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
-              subPath: elasticsearch.yml
+            # - name: elasticsearch-snapshot
+            #   mountPath: /usr/share/elasticsearch/snapshot
+            # - name: elasticsearch-config
+            #   mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+            #   subPath: elasticsearch.yml
 
           resources:
             limits:

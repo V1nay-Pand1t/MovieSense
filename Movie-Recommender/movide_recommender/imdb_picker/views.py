@@ -27,9 +27,9 @@ class MovieViewSet(viewsets.ViewSet):
         results = []
         if query:
             results = ElasticsearchUtils.full_text_search(query)
-        # Serialize the results if you have a MovieSerializer
+        print("results:")
+        print(results)
         serializer = MovieData2Serializer(results, many=True)
-        print("results", results)
         return Response({'results': serializer.data}, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['get'], url_path='semantic_search')

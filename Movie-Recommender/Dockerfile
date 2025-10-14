@@ -1,5 +1,5 @@
-FROM moviesensebackend2:local
+FROM moviesensebackend4:local
 
-# Copy only updated settings.py into the container
-COPY movide_recommender/movide_recommender/* /app/movide_recommender/
+# Copy entire codebase
+COPY movide_recommender/ /app/
 

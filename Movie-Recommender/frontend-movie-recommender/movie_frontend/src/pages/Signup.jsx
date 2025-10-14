@@ -22,7 +22,7 @@ export default function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/auth/jwt/register/', form);
+            const response = await axios.post('http://moviesense-backend:8081/api/auth/jwt/register/', form);
             setMessage('Registration successful!');
             navigate('/login');
 

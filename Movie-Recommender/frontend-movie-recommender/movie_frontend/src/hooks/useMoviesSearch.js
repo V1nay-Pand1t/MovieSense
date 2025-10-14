@@ -10,9 +10,9 @@ export function useMoviesSearch(query, mode) {
             if (!query) return [];
             let endpoint;
             if (mode === 'semantic') {
-                endpoint = `http://127.0.0.1:8000/imdb/movies/semantic_search/?q=${encodeURIComponent(query)}`;
+                endpoint = `http://moviesense-backend:8000/imdb/movies/semantic_search/?q=${encodeURIComponent(query)}`;
             } else {
-                endpoint = `http://127.0.0.1:8000/imdb/movies/full_text_search/?q=${encodeURIComponent(query)}`;
+                endpoint = `http://moviesense-backend:8000/imdb/movies/full_text_search/?q=${encodeURIComponent(query)}`;
             }
             const { data } = await axios.get(endpoint, { validateStatus: () => true });
             // Defensive: check if data is an object and has results

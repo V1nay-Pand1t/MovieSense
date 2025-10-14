@@ -24,9 +24,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-o!6-15q3-ydf#sn8i#1mc_6*%n63c-wo8pe8ojy&t$0#m-feek'
 
@@ -34,11 +31,7 @@ SECRET_KEY = 'django-insecure-o!6-15q3-ydf#sn8i#1mc_6*%n63c-wo8pe8ojy&t$0#m-feek
 DEBUG = True
 
 ALLOWED_HOSTS = [ 
-                 'localhost',
-                 '127.0.0.1',
-                 'elasticsearch',
-                 'postgres',
-                 'moviesense-frontend'
+"*"
 ]
 
 
@@ -58,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',  # For token authentication
     'rest_framework_simplejwt',  # For JWT authentication
     "corsheaders",
+    'django_prometheus',
 ]
 
 REST_FRAMEWORK = {
@@ -92,6 +86,7 @@ SIMPLE_JWT = {
 
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -100,6 +95,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'movide_recommender.urls'
@@ -133,7 +129,7 @@ DATABASES = {
         'NAME': 'mydb',
         'USER': 'postgres',
         'PASSWORD': '1234',
-        'HOST': 'postgres',
+        'HOST': 'postgreaccount',
         'PORT': '5432',
     }
 }
@@ -181,18 +177,16 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173", # RReact dev server
-    "http://127.0.0.1:5173",
-    "http://moviesense-frontend:5173",
-    "http://elasticsearch:9200"
-]
+CORS_ALLOW_ALL_ORIGINS = True   # for dev/testing
+
 CORS_ALLOW_CREDENTIALS = True
 
-# Optional if you're using cookies
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173", # RReact dev server
-    "http://127.0.0.1:5173",
-    "http://moviesense-frontend:5173",
-    "http://elasticsearch:9200"
+    "http://localhost",
+    "http://localhost:3000",
+    "http://moviesense-frontend",
+    "http://moviesense-frontend:8000",
+    "http://moviesense-frontend:8080",
+    "http://postgreaccount:5432",
+    "http://elasticsearch:9200",
 ]

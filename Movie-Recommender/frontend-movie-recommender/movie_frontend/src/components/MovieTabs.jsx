@@ -37,9 +37,6 @@ export default function MovieSearchTabs() {
                     }, {
                         label: 'Semantic Search',
                         icon: <LightBulbIcon className="w-5 h-5 inline mr-2" />
-                    }, {
-                        label: 'Movie Recommendations',
-                        icon: <LightBulbIcon className="w-5 h-5 inline mr-2" />
                     }
                     ].map(({ label, icon }) => (
                         <Tab

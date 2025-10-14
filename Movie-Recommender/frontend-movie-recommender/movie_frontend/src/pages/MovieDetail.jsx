@@ -29,7 +29,7 @@ export default function MovieDetail() {
             if (!movie_data?.poster_path) {
                 throw new Error('No poster path available');
             }
-            const { data } = await axios.get(`http://127.0.0.1:8000/imdb/movies/info/?q=${movie_data.poster_path}`);
+            const { data } = await axios.get(`http://moviesense-backend:8081/imdb/movies/info/?q=${movie_data.poster_path}`);
             return data;
         },
         enabled: !!movie_data?.poster_path,
@@ -94,7 +94,7 @@ export default function MovieDetail() {
 
     const handleSave = async () => {
         console.log(`Movie "${movie.title}" saved for future watchlist feature.`);
-        const response = await axios.post(`http://127.0.0.1:8000/imdb/movies/update_watchlist/?q=${movie_data.poster_path}`, movie_data, { withCredentials: true });
+        const response = await axios.post(`http://moviesense-backend:8080/imdb/movies/update_watchlist/?q=${movie_data.poster_path}`, movie_data, { withCredentials: true });
         setMessage(`Movie "${movie.title}" saved for future watchlist feature.`);
     };
 

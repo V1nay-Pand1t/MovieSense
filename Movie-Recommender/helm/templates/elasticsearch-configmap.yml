@@ -1,0 +1,8 @@
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: elasticsearch-config
+#   namespace: moviesense
+# data:
+#   elasticsearch.yml: |
+#     path.repo: ["/usr/share/elasticsearch/snapshot"]
