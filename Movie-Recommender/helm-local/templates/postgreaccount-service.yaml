@@ -1,0 +1,15 @@
+## Postgre
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgreaccount
+  labels:
+    service: postgreaccount
+spec:
+  type: ClusterIP
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+  selector:
+    service: postgreaccount

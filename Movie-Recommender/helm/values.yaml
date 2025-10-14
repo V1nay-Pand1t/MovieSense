@@ -8,8 +8,10 @@ image:
 podSecurityPolicy:
   enabled: false
 
+esConfig:
+  elasticsearch.yml: |
+    path.repo: ["/usr/share/elasticsearch/snapshot"]
 nodePort: false
-
 ocCreateRoute: false
 
 moviesensefrontend:
@@ -24,9 +26,9 @@ moviesensefrontend:
                 operator: In
                 values:
                   - Standard_D4s_v3
-  nodePort: 32080
+  nodePort: 30000
   port: 80
-  targetPort: 5173
+  targetPort: 80
 
 moviesensebackend:
   affinity:
@@ -46,4 +48,3 @@ moviesensebackend:
       operator: "Exists"
       effect: "NoExecute"
       tolerationSeconds: 3600
-  port: 8081

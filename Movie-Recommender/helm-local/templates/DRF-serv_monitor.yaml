@@ -1,0 +1,22 @@
+### Service monitor for DRF backend
+
+# servicemonitor-moviesense.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: moviesense-backend-sm
+  namespace: moviesense # where Prometheus Operator lives
+  labels:
+    release: kube-prometheus-stack # optional: match your Prometheus Helm release if needed
+spec:
+  selector:
+    matchLabels:
+      app: moviesense-backend # must match the Service's label
+  namespaceSelector:
+    matchNames:
+      - default # namespace where the Service lives
+  endpoints:
+    - port: metrics # the Service port name (not nodePort)
+      path: /metrics
+      interval: 15s
+      scrapeTimeout: 10s

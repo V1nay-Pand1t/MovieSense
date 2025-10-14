@@ -4,6 +4,7 @@ metadata:
   name: moviesense-backend
   labels:
     app: moviesense-backend
+    team: moviesense-backend
 spec:
   type: NodePort
   selector:
@@ -12,4 +13,6 @@ spec:
     - name: http
       port: 8000 # service port (frontend will call this)
       targetPort: 8000 # actual containerPort from Deployment
-
+    - name: metrics
+      port: 8002 # service port for metrics
+      targetPort: 8002 # actual containerPort from Deployment

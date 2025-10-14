@@ -18,6 +18,6 @@ class MovieData2Serializer(serializers.Serializer):
     spoken_languages = serializers.CharField(required=False)
     status = serializers.CharField(required=False)
     text = serializers.CharField(required=False)
-    title = serializers.CharField(required=False)
     vote_average = serializers.FloatField(required=False)
+    movie_title = serializers.CharField(source="title", required=False)
     vote_count = serializers.IntegerField(required=False)
