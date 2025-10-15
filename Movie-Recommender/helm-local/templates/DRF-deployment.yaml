@@ -26,12 +26,12 @@ spec:
                 echo "Postgres not ready, sleeping...";
                 sleep 2;
               done
-              echo "Postgres is up!":
+              echo "Postgres is up!"
       containers:
         - name: moviesense-backend
-          image: moviesenseregistry.azurecr.io/moviesensebackend:v17
+          image: vinyl48/moviesensebackend:latest
           ports:
-            - containerPort: 8081
+            - containerPort: 8080
           resources:
             limits:
               cpu: 200m

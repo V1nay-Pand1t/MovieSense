@@ -1,0 +1,6 @@
+apiVersion: v1
+name: moviesense
+version: 1.1.0
+home: "www.google.com" # placeholder for home URL
+description: Fully containerized Moview Recommender application
+icon: "https://www.google.com/favicon.ico" # placeholder for icon URL

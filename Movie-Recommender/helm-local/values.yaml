@@ -1,0 +1,43 @@
+# Values file adjusted for local Kind clusters
+# - Removes cloud-specific node affinity/nodeSelector/tolerations
+# - Sets sensible defaults for local development with kind
+# - Keeps pullPolicy IfNotPresent so you can `kind load docker-image` or push to a local registry
+
+image:
+  repo: moviesense
+  version: latest
+  pullPolicy: IfNotPresent
+
+# Pod Security Policy
+podSecurityPolicy:
+  enabled: false
+
+# Frontend service: for local Kind clusters it's easiest to expose via NodePort
+# You can change nodePort to null to let Kubernetes choose a port, or keep 30080 for a stable mapping.
+moviesensefrontend:
+  # simplified: remove cloud-specific affinity
+  affinity: {}
+  # For Kind, NodePort is fine for local access. Set to null to use ClusterIP only.
+  nodePort: 30080
+  port: 80
+  targetPort: 80
+
+moviesensebackend:
+  # remove cloud-specific affinity/nodeSelector/tolerations used for cloud VMs
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+  # By default keep ClusterIP service; for local testing you may want NodePort
+  service:
+    type: ClusterIP
+    # If you prefer NodePort for backend, set nodePort to an available port (e.g. 30001)
+    nodePort: null
+  port: 8080
+  targetPort: 8080
+
+# Helpful extra options for local use
+local:
+  # If you build images locally and load them into kind, set this to true so Helm won't try to pull from a registry
+  useLocalImages: true
+  # If using kind with a local registry, set the registry host:port here (eg: localhost:5000)
+  localRegistry: ""

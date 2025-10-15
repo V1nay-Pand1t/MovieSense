@@ -22,7 +22,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/auth/jwt/login/', form, { withCredentials: true });
+            const response = await axios.post('http://moviesense-backend:8000/api/auth/jwt/login/', form, { withCredentials: true });
             setMessage('Login successful!');
             console.log('Login response:', response.data);
             await setUser({

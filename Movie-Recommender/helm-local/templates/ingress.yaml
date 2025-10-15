@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: moviesense
+  name: movie-sense-ingress
+  annotations:
+    # Explicitly tell Kubernetes which ingress controller to use
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: moviesense-frontend # your frontend service name
+                port:
+                  number: 80

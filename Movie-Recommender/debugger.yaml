@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-debugger
+  namespace: moviesense
+spec:
+  containers:
+    - name: debugger
+      image: alpine:3.18
+      command: ["sleep", "infinity"]
+      volumeMounts:
+        - name: elasticsearch-snapshot
+          mountPath: /usr/share/elasticsearch/snapshot
+          subPath: snapshot
+  volumes:
+    - name: elasticsearch-snapshot
+      persistentVolumeClaim:
+        claimName: data-elasticsearch-0
