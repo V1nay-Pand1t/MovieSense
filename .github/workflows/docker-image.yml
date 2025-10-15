@@ -27,7 +27,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: Movie-Recommender/movide_recommender
           # Build and publish to registry
           push: true
           # Build multi-arch images (optional: remove if not needed)
