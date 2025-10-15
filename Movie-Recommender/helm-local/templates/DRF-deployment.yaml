@@ -29,9 +29,9 @@ spec:
               echo "Postgres is up!"
       containers:
         - name: moviesense-backend
-          image: vinyl48/moviesensebackend:v104
+          image: vinyl48/moviesensebackend:latest
           ports:
-            - containerPort: 8081
+            - containerPort: 8080
           resources:
             limits:
               cpu: 200m

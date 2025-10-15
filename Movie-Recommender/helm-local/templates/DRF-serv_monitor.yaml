@@ -5,9 +5,9 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: moviesense-backend-sm
-  namespace: moviesense # where Prometheus Operator lives
+  namespace: monitoring # where Prometheus Operator lives
   labels:
-    release: kube-prometheus-stack # optional: match your Prometheus Helm release if needed
+    release: monitoring # optional: match your Prometheus Helm release if needed
 spec:
   selector:
     matchLabels:
