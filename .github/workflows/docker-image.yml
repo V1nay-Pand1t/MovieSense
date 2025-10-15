@@ -34,7 +34,6 @@ jobs:
           platforms: linux/amd64
           # Tags to publish: update repo/name as required
           tags: |
-            docker.io/vinyl48/moviesensebackend:$(date +%s)
             docker.io/vinyl48/moviesensebackend:latest
           # Useful metadata labels
           labels: |
