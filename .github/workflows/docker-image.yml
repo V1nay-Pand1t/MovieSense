@@ -39,6 +39,3 @@ jobs:
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-          # Cache settings (optional); requires registry write/read
-          cache-from: type=registry,ref=docker.io/vinyl48/moviesense:cache
-          cache-to: type=registry,mode=max,ref=docker.io/vinyl48/moviesense:cache
