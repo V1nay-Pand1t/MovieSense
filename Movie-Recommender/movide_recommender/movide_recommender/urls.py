@@ -6,7 +6,7 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('metrics/', include('django_prometheus.urls')),
+    path('', include('django_prometheus.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('accounts.urls')),
     # Include the URLs from the imdb app
