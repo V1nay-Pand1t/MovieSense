@@ -43,5 +43,8 @@ COPY . .
 # Expose port
 EXPOSE 8000
 
+# export djano-promt    
+ENV prometheus_multiproc_dir=/tmp/prometheus
+RUN command rm -rf /tmp/prometheus && mkdir /tmp/prometheus
 # Run migrations + collectstatic + start server
-CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn movide_recommender.wsgi:application --bind 0.0.0.0:8081"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn movide_recommender.wsgi:application --workers 3 --bind 0.0.0.0:8081"]
