@@ -17,7 +17,7 @@
 * **Registry:** Images stored in Azure Container Registry (ACR)
 
 
-![Architecture Diagram](https://github.com/user-attachments/assets/53719511-750f-464e-b988-3b3a61449a55)
+![Architecture Diagram]<img width="1472" height="720" alt="Gemini_Generated_Image_uyswfkuyswfkuysw" src="https://github.com/user-attachments/assets/c0c6d062-f2ef-41e0-b379-15271bcdc055" />
 
 
 ---
