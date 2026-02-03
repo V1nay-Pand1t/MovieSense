@@ -1,0 +1,59 @@
+# Values file adjusted for local Kind clusters
+# - Removes cloud-specific node affinity/nodeSelector/tolerations
+# - Sets sensible defaults for local development with kind
+# - Keeps pullPolicy IfNotPresent so you can kind load docker-image or push to a local registry
+
+# Docker image configuration
+image:
+  repo: moviesense
+  version: latest
+  pullPolicy: IfNotPresent
+# Component-specific image overrides (set these to override the default image)
+images:
+  backend:
+    name: moviesense-backend
+    tag: v15
+    pullPolicy: IfNotPresent
+  frontend:
+    name: moviesense-frontend
+    tag: v12
+    pullPolicy: IfNotPresent
+  postgres:
+    repo: library
+    name: postgres
+    tag: "16"
+    pullPolicy: IfNotPresent
+  elasticsearch:
+    repo: library
+    name: elasticsearch
+    tag: "9.0.3"
+    pullPolicy: IfNotPresent
+
+# Pod Security Policy
+podSecurityPolicy:
+  enabled: false
+
+# Frontend service: for local Kind clusters it's easiest to expose via NodePort
+# You can change nodePort to null to let Kubernetes choose a port, or keep 30080 for a stable mapping.
+moviesensefrontend:
+  # simplified: remove cloud-specific affinity
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+  # For Kind, NodePort is fine for local access. Set to null to use ClusterIP only.
+  service:
+    type: NodePort
+    nodePort: 30080 # set to null for no fixed port, or keep a value for stable access
+  port: 80
+  targetPort: 80
+
+moviesensebackend:
+  # Backend service configuration for local Kind clusters
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+  service:
+    type: ClusterIP # Use ClusterIP for internal communication; set to NodePort for external access
+    nodePort: null # set to a port number (e.g., 30001) for NodePort, or null for ClusterIP
+  port: 8081 # service port (internal)
+  targetPort: 8081 # container port

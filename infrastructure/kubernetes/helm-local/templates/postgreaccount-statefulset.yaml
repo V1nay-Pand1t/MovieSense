@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgreaccount-deployment
+  labels:
+    service: postgreaccount
+spec:
+  serviceName: postgreaccount # must be under spec (matches Service metadata.name)
+  replicas: 1
+  selector:
+    matchLabels:
+      service: postgreaccount
+  template:
+    metadata:
+      labels:
+        service: postgreaccount
+    spec:
+      containers:
+        - name: postgreaccount
+          image: "{{ .Values.images.postgres.repo }}/{{ .Values.images.postgres.name }}:{{ .Values.images.postgres.tag }}"
+          imagePullPolicy: {{ .Values.images.postgres.pullPolicy }}
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"] # added for Istio
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "1234"
+            - name: POSTGRES_DB
+              value: "mydb"
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 700Mi
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "standard"
+        volumeMode: Filesystem
+        resources:
+          requests:
+            storage: 1Gi

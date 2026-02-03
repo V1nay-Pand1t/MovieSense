@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    service: elasticsearch
+  name: elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: elasticsearch
+  serviceName: elasticsearch
+  template:
+    metadata:
+      labels:
+        service: elasticsearch
+    spec:
+      securityContext:
+        fsGroup: 1000 # Elasticsearch UID/GID
+        runAsUser: 1000
+        runAsGroup: 1000
+      volumes:
+        - name: elasticsearch-snapshot
+          persistentVolumeClaim:
+            claimName: data-elasticsearch-0
+        # - name: elasticsearch-config
+        #   configMap:
+        #     name: elasticsearch-config
+      containers:
+        - name: elasticsearch
+          image: "{{ .Values.images.elasticsearch.repo }}/{{ .Values.images.elasticsearch.name }}:{{ .Values.images.elasticsearch.tag }}"
+          imagePullPolicy: {{ .Values.images.elasticsearch.pullPolicy }}
+          ports:
+            - containerPort: 9200
+          env:
+            - name: xpack.security.enabled
+              value: "false"
+            - name: discovery.type
+              value: "single-node"
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/elasticsearch/data
+            # - name: elasticsearch-snapshot
+            #   mountPath: /usr/share/elasticsearch/snapshot
+            # - name: elasticsearch-config
+            #   mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+            #   subPath: elasticsearch.yml
+
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "local-path"
+        volumeMode: Filesystem
+        resources:
+          requests:
+            storage: 7Gi
