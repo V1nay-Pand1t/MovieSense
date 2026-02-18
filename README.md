@@ -29,7 +29,7 @@ MovieSense is a **cloud-native movie recommendation system** built using **Djang
 ## 📊 Observability Showcase
 
 👉 **Grafana & Prometheus Dashboards**
-[https://github.com/user-attachments/assets/ca2dc8a1-6142-4370-8159-257682dbeb3a](https://github.com/user-attachments/assets/ca2dc8a1-6142-4370-8159-257682dbeb3a)
+https://github.com/user-attachments/assets/ca2dc8a1-6142-4370-8159-257682dbeb3a
 [https://github.com/user-attachments/assets/5ec51f8a-2683-430e-b4c9-f0738d4466c2](https://github.com/user-attachments/assets/5ec51f8a-2683-430e-b4c9-f0738d4466c2)
 [https://github.com/user-attachments/assets/bbd5646e-56fa-40b0-8fe9-e1c822d4429a](https://github.com/user-attachments/assets/bbd5646e-56fa-40b0-8fe9-e1c822d4429a)
 
