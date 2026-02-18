@@ -7,6 +7,7 @@ MovieSense is a **cloud-native movie recommendation system** built using **Djang
 ---
 
 ## 🧠 Architecture Overview
+![Architecture Diagram]<img width="1472" height="720" alt="Gemini_Generated_Image_uyswfkuyswfkuysw" src="https://github.com/user-attachments/assets/c0c6d062-f2ef-41e0-b379-15271bcdc055" />
 
 **Core Components**
 
@@ -21,8 +22,9 @@ MovieSense is a **cloud-native movie recommendation system** built using **Djang
 
 ## 🎥 Application Demo
 
-👉 **Video Demo**
-[https://github.com/user-attachments/assets/495f5eb8-71c7-4b0f-b895-47957ee82b29](https://github.com/user-attachments/assets/495f5eb8-71c7-4b0f-b895-47957ee82b29)
+
+https://github.com/user-attachments/assets/0a8c293e-6d18-459b-8959-8b1921bd930a
+
 
 ---
 
