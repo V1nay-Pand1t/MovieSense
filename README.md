@@ -1,90 +1,75 @@
 # 🎮 MovieSense
 
-**AI-powered, hyper-fast movie search & recommendation system**
+**AI-powered movie search & recommendation platform**
 
-> A microservices-driven movie recommendation platform built with Django REST, React, and Azure Kubernetes Service (AKS) — delivering lightning-fast, AI-powered search with seamless CI/CD and real-time observability.
+MovieSense is a **cloud-native movie recommendation system** built using **Django REST, React, and Azure Kubernetes Service (AKS)**. It focuses on fast search, scalable microservices, and production-grade observability.
+
 ---
 
 ## 🧠 Architecture Overview
 
+**Core Components**
 
-**Components**
-
-* **Backend:** Django REST API for recommendation endpoints
-* **Workers:** Background pickers for IMDb ingestion
+* **Backend:** Django REST API for recommendations
+* **Workers:** Background IMDb ingestion jobs
 * **Frontend:** React-based movie search UI
-* **Infra:** Containerized & deployed on AKS via Helm
-* **Registry:** Images stored in Azure Container Registry (ACR)
+* **Platform:** Dockerized services deployed on AKS using Helm
+* **Registry:** Azure Container Registry (ACR)
+* **Observability:** Prometheus & Grafana
 
+---
 
-![Architecture Diagram]<img width="1472" height="720" alt="Gemini_Generated_Image_uyswfkuyswfkuysw" src="https://github.com/user-attachments/assets/c0c6d062-f2ef-41e0-b379-15271bcdc055" />
+## 🎥 Application Demo
 
+👉 **Video Demo**
+[https://github.com/user-attachments/assets/495f5eb8-71c7-4b0f-b895-47957ee82b29](https://github.com/user-attachments/assets/495f5eb8-71c7-4b0f-b895-47957ee82b29)
+
+---
+
+## 📊 Observability Showcase
+
+👉 **Grafana & Prometheus Dashboards**
+[https://github.com/user-attachments/assets/ca2dc8a1-6142-4370-8159-257682dbeb3a](https://github.com/user-attachments/assets/ca2dc8a1-6142-4370-8159-257682dbeb3a)
+[https://github.com/user-attachments/assets/5ec51f8a-2683-430e-b4c9-f0738d4466c2](https://github.com/user-attachments/assets/5ec51f8a-2683-430e-b4c9-f0738d4466c2)
+[https://github.com/user-attachments/assets/bbd5646e-56fa-40b0-8fe9-e1c822d4429a](https://github.com/user-attachments/assets/bbd5646e-56fa-40b0-8fe9-e1c822d4429a)
 
 ---
 
 ## ⚙️ Prerequisites
 
-* Azure account + CLI (`az`)
+* Azure account + `az` CLI
 * `kubectl`, `Helm 3`, `Docker`
-* Python 3.13 (for local dev)
-* PowerShell (Windows instructions)
+* Python 3.13
 
 ---
 
 ## 💻 Local Development
 
 ```bash
-# Activate virtual environment
-.\environment\Activate.ps1
-
-# Install dependencies
 pip install -r movie_recommender/requirements.txt
-
-# Run Django app
 cd movie_recommender
 python manage.py migrate
 python manage.py runserver 0.0.0.0:8000
 ```
 
-Open the frontend following `frontend/movie_frontend/README.md`.
+Frontend setup instructions are available under `frontend/movie_frontend/`.
 
 ---
 
-## 🐳 Docker Build & Push
+## 🐳 Build & Push Image
 
 ```bash
-# Build image
 docker build -t movie-recommender:<tag> -f movie_recommender/Dockerfile .
-
-# Tag & push to ACR
 docker tag movie-recommender:<tag> <acrName>.azurecr.io/movie-recommender:<tag>
 az acr login --name <acrName>
 docker push <acrName>.azurecr.io/movie-recommender:<tag>
-
-# Or build directly into ACR
-az acr build --registry <acrName> --image movie-recommender:<tag> --file movie_recommender/Dockerfile .
 ```
 
 ---
 
-## ☁️ Deploy on Azure AKS
+## 🚀 Deploy on AKS (Helm)
 
 ```bash
-# Login & create resources
-az login
-az group create --name <rgName> --location <region>
-az acr create --resource-group <rgName> --name <acrName> --sku Standard
-az aks create --resource-group <rgName> --name <aksName> \
-  --node-count 3 --enable-managed-identity --attach-acr <acrName> --generate-ssh-keys
-az aks get-credentials --resource-group <rgName> --name <aksName>
-```
-
----
-
-## 🚀 Helm Deployment
-
-```bash
-# Update values.yaml (set image repo, tag, secrets)
 helm upgrade --install movie-sense ./helm \
   --namespace movie-sense --create-namespace \
   --set image.repository=<acrName>.azurecr.io/movie-recommender \
@@ -94,13 +79,11 @@ helm upgrade --install movie-sense ./helm \
 Verify:
 
 ```bash
-kubectl get pods -n movie-sense
-kubectl get svc -n movie-sense
+kubectl get pods,svc -n movie-sense
 ```
 
 ---
 
-## 🔐 Secrets & Config
+## 🔐 Configuration
 
-* Store `SECRET_KEY`, DB credentials, and API keys via **Kubernetes Secrets** or **Azure Key Vault**.
-* For PostgreSQL, use **Azure Database for PostgreSQL** and define `DATABASE_URL` in `values.yaml`.
+* Secrets via **Kubernetes Secrets** or **Azure Key Vault
