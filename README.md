@@ -31,9 +31,9 @@ https://github.com/user-attachments/assets/0a8c293e-6d18-459b-8959-8b1921bd930a
 ## 📊 Observability Showcase
 
 👉 **Grafana & Prometheus Dashboards**
-https://github.com/user-attachments/assets/ca2dc8a1-6142-4370-8159-257682dbeb3a
-[https://github.com/user-attachments/assets/5ec51f8a-2683-430e-b4c9-f0738d4466c2](https://github.com/user-attachments/assets/5ec51f8a-2683-430e-b4c9-f0738d4466c2)
-[https://github.com/user-attachments/assets/bbd5646e-56fa-40b0-8fe9-e1c822d4429a](https://github.com/user-attachments/assets/bbd5646e-56fa-40b0-8fe9-e1c822d4429a)
+![#1]<img width="1472" height="720" alt="Placeholder" src="https://github.com/user-attachments/assets/ca2dc8a1-6142-4370-8159-257682dbeb3a" />
+![#2]<img width="1472" height="720" alt="pLACEHOLDER" src="https://github.com/user-attachments/assets/5ec51f8a-2683-430e-b4c9-f0738d4466c2" />
+![#2]<img width="1472" height="720" alt="Gw" src="https://github.com/user-attachments/assets/bbd5646e-56fa-40b0-8fe9-e1c822d4429a" />
 
 ---
 
