@@ -1,4 +1,4 @@
-# 🎮 MovieSense
+# MovieSense
 
 **AI-powered movie search & recommendation platform**
 
@@ -6,7 +6,7 @@ MovieSense is a **cloud-native movie recommendation system** built using **Djang
 
 ---
 
-## 🧠 Architecture Overview
+## Architecture Overview
 ![Architecture Diagram]<img width="1472" height="720" alt="Gemini_Generated_Image_uyswfkuyswfkuysw" src="https://github.com/user-attachments/assets/c0c6d062-f2ef-41e0-b379-15271bcdc055" />
 
 **Core Components**
@@ -20,7 +20,7 @@ MovieSense is a **cloud-native movie recommendation system** built using **Djang
 
 ---
 
-## 🎥 Application Demo
+## Application Demo
 
 
 https://github.com/user-attachments/assets/0a8c293e-6d18-459b-8959-8b1921bd930a
@@ -37,7 +37,7 @@ https://github.com/user-attachments/assets/0a8c293e-6d18-459b-8959-8b1921bd930a
 
 ---
 
-## ⚙️ Prerequisites
+## Prerequisites
 
 * Azure account + `az` CLI
 * `kubectl`, `Helm 3`, `Docker`
@@ -45,7 +45,7 @@ https://github.com/user-attachments/assets/0a8c293e-6d18-459b-8959-8b1921bd930a
 
 ---
 
-## 💻 Local Development
+## Local Development
 
 ```bash
 pip install -r movie_recommender/requirements.txt
@@ -58,7 +58,7 @@ Frontend setup instructions are available under `frontend/movie_frontend/`.
 
 ---
 
-## 🐳 Build & Push Image
+## Build & Push Image
 
 ```bash
 docker build -t movie-recommender:<tag> -f movie_recommender/Dockerfile .
@@ -69,7 +69,7 @@ docker push <acrName>.azurecr.io/movie-recommender:<tag>
 
 ---
 
-## 🚀 Deploy on AKS (Helm)
+## Deploy on AKS (Helm)
 
 ```bash
 helm upgrade --install movie-sense ./helm \
